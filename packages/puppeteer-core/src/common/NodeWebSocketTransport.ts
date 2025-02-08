@@ -26,6 +26,7 @@ export class NodeWebSocketTransport implements ConnectionTransport {
     url: string,
     headers?: Record<string, string>
   ): Promise<NodeWebSocketTransport> {
+    console.log('static create', 'NodeWebSocketTransport');
     return new Promise((resolve, reject) => {
       const ws = new NodeWebSocket(url, [], {
         followRedirects: true,
@@ -40,7 +41,10 @@ export class NodeWebSocketTransport implements ConnectionTransport {
       ws.addEventListener('open', () => {
         return resolve(new NodeWebSocketTransport(ws));
       });
-      ws.addEventListener('error', reject);
+      ws.addEventListener('error', e => {
+        console.error(e);
+        reject(e);
+      });
     });
   }
 
@@ -52,18 +56,22 @@ export class NodeWebSocketTransport implements ConnectionTransport {
     this.#ws = ws;
     this.#ws.addEventListener('message', event => {
       setImmediate(() => {
+        console.log('In Node Web Socket message event', this.onmessage);
         if (this.onmessage) {
           this.onmessage.call(null, event.data);
         }
       });
     });
     this.#ws.addEventListener('close', () => {
+      console.log('In Node Web Socket close event', this.onclose);
       if (this.onclose) {
         this.onclose.call(null);
       }
     });
     // Silently ignore all errors - we don't know what to do with them.
-    this.#ws.addEventListener('error', () => {});
+    this.#ws.addEventListener('error', e => {
+      console.error(e);
+    });
   }
 
   send(message: string): void {

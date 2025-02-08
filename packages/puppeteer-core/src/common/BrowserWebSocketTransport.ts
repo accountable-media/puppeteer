@@ -24,6 +24,9 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
       const ws = new WebSocket(url);
 
       ws.addEventListener('open', () => {
+        const urlDebug = new URL(url);
+        urlDebug.search = '';
+        console.log('open:', urlDebug);
         return resolve(new BrowserWebSocketTransport(ws));
       });
       ws.addEventListener('error', e => {
@@ -40,17 +43,19 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
   constructor(ws: WebSocket) {
     this.#ws = ws;
     this.#ws.addEventListener('message', event => {
+      console.log('In Browser Web Socket message event', this.onmessage);
       if (this.onmessage) {
         this.onmessage.call(null, event.data);
       }
     });
     this.#ws.addEventListener('close', () => {
+      console.log('In Browser Web Socket close event', this.onclose);
       if (this.onclose) {
         this.onclose.call(null);
       }
     });
     // Silently ignore all errors - we don't know what to do with them.
-    this.#ws.addEventListener('error', (e) => {
+    this.#ws.addEventListener('error', e => {
       console.error(e);
     });
   }

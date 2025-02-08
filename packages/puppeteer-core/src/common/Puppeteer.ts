@@ -142,6 +142,7 @@ export class Puppeteer {
    * @returns Promise which resolves to browser instance.
    */
   connect(options: ConnectOptions): Promise<Browser> {
+    console.log('puppeteer-core: connect');
     return _connectToCDPBrowser(options);
   }
 }

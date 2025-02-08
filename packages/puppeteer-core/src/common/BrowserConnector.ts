@@ -68,6 +68,7 @@ export interface BrowserConnectOptions {
 }
 
 const getWebSocketTransportClass = async () => {
+  console.log('isNode', isNode);
   return isNode
     ? (await import('./NodeWebSocketTransport.js')).NodeWebSocketTransport
     : (await import('./BrowserWebSocketTransport.js'))
@@ -107,8 +108,10 @@ export async function _connectToCDPBrowser(
     connection = new Connection('', transport, slowMo, protocolTimeout);
   } else if (browserWSEndpoint) {
     const WebSocketClass = await getWebSocketTransportClass();
+    console.log('In common: after get class', WebSocketClass);
     const connectionTransport: ConnectionTransport =
       await WebSocketClass.create(browserWSEndpoint, headers);
+    console.log('In common: create connection transport', WebSocketClass);
     connection = new Connection(
       browserWSEndpoint,
       connectionTransport,
@@ -118,8 +121,10 @@ export async function _connectToCDPBrowser(
   } else if (browserURL) {
     const connectionURL = await getWSEndpoint(browserURL);
     const WebSocketClass = await getWebSocketTransportClass();
+    console.log('Got the web socket class', WebSocketClass);
     const connectionTransport: ConnectionTransport =
       await WebSocketClass.create(connectionURL);
+    console.log('Created connection transport', connectionTransport);
     connection = new Connection(
       connectionURL,
       connectionTransport,
@@ -136,6 +141,8 @@ export async function _connectToCDPBrowser(
   const {browserContextIds} = await connection.send(
     'Target.getBrowserContexts'
   );
+
+  console.log('Before CDP Browser create');
   const browser = await CDPBrowser._create(
     product || 'chrome',
     connection,

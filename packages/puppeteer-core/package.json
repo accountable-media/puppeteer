@@ -1,6 +1,6 @@
 {
   "name": "@accountable-media/puppeteer",
-  "version": "0.0.15-rc.1",
+  "version": "0.0.15-rc.4",
   "description": "A high-level API to control headless Chrome over the DevTools Protocol",
   "keywords": [
     "puppeteer",

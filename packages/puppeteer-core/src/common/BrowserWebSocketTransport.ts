@@ -26,7 +26,10 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
       ws.addEventListener('open', () => {
         return resolve(new BrowserWebSocketTransport(ws));
       });
-      ws.addEventListener('error', reject);
+      ws.addEventListener('error', e => {
+        console.error(e);
+        reject(e);
+      });
     });
   }
 
@@ -47,7 +50,9 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
       }
     });
     // Silently ignore all errors - we don't know what to do with them.
-    this.#ws.addEventListener('error', () => {});
+    this.#ws.addEventListener('error', (e) => {
+      console.error(e);
+    });
   }
 
   send(message: string): void {

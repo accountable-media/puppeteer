@@ -3,7 +3,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/puppeteer/puppeteer"
+    "url": "git+https://github.com/puppeteer/puppeteer.git"
   },
   "scripts": {
     "build": "wireit",
@@ -180,5 +180,6 @@
     "packages/*",
     "test",
     "test/installation"
-  ]
+  ],
+  "version": ""
 }

@@ -1,6 +1,6 @@
 {
-  "name": "@cloudflare/puppeteer",
-  "version": "0.0.14",
+  "name": "@accountable-media/puppeteer",
+  "version": "0.0.15-rc.1",
   "description": "A high-level API to control headless Chrome over the DevTools Protocol",
   "keywords": [
     "puppeteer",
@@ -155,5 +155,8 @@
     "rxjs": "7.8.1",
     "mitt": "3.0.0",
     "parsel-js": "1.1.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }

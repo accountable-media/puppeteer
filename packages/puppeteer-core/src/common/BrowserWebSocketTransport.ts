@@ -30,7 +30,7 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
         return resolve(new BrowserWebSocketTransport(ws));
       });
       ws.addEventListener('error', e => {
-        console.error(e);
+        console.error(JSON.stringify(e));
         reject(e);
       });
     });
@@ -43,13 +43,13 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
   constructor(ws: WebSocket) {
     this.#ws = ws;
     this.#ws.addEventListener('message', event => {
-      console.log('In Browser Web Socket message event', this.onmessage);
+      console.log('In Browser Web Socket message event', event.data);
       if (this.onmessage) {
         this.onmessage.call(null, event.data);
       }
     });
     this.#ws.addEventListener('close', () => {
-      console.log('In Browser Web Socket close event', this.onclose);
+      console.log('In Browser Web Socket close event');
       if (this.onclose) {
         this.onclose.call(null);
       }

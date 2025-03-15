@@ -108,10 +108,10 @@ export async function _connectToCDPBrowser(
     connection = new Connection('', transport, slowMo, protocolTimeout);
   } else if (browserWSEndpoint) {
     const WebSocketClass = await getWebSocketTransportClass();
-    console.log('In common: after get class', WebSocketClass);
+    console.log('In common: after get class');
     const connectionTransport: ConnectionTransport =
       await WebSocketClass.create(browserWSEndpoint, headers);
-    console.log('In common: create connection transport', WebSocketClass);
+    console.log('In common: create connection transport');
     connection = new Connection(
       browserWSEndpoint,
       connectionTransport,

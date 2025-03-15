@@ -23,6 +23,8 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
     return new Promise((resolve, reject) => {
       const ws = new WebSocket(url);
 
+      console.log('Before registering error handlers');
+
       ws.addEventListener('open', () => {
         const urlDebug = new URL(url);
         urlDebug.search = '';
@@ -30,7 +32,8 @@ export class BrowserWebSocketTransport implements ConnectionTransport {
         return resolve(new BrowserWebSocketTransport(ws));
       });
       ws.addEventListener('error', e => {
-        console.error(JSON.stringify(e));
+        console.log('In error handler in constructor');
+        console.log('Stringified:' + JSON.stringify(e));
         reject(e);
       });
     });
